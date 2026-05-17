@@ -1,0 +1,112 @@
+{
+  "info": {
+    "name": "QueueLess Campus Backend APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "studentToken", "value": "" },
+    { "key": "adminToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth - Student Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": { "mode": "raw", "raw": "{\"email\":\"student@campus.com\",\"password\":\"student123\"}" }
+      }
+    },
+    {
+      "name": "Auth - Admin Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/auth/login",
+        "body": { "mode": "raw", "raw": "{\"email\":\"admin@campus.com\",\"password\":\"admin123\"}" }
+      }
+    },
+    {
+      "name": "Register Student",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/auth/register",
+        "body": { "mode": "raw", "raw": "{\"name\":\"Neha Patel\",\"email\":\"neha@campus.com\",\"password\":\"student123\",\"department\":\"ECE\",\"studentId\":\"EC2026002\",\"phone\":\"9876500001\"}" }
+      }
+    },
+    {
+      "name": "Get Facilities",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+        "url": "{{baseUrl}}/api/facilities"
+      }
+    },
+    {
+      "name": "Check Availability",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{studentToken}}" }],
+        "url": "{{baseUrl}}/api/facilities/1/availability?date=2026-05-18&startTime=10:00:00&endTime=11:00:00"
+      }
+    },
+    {
+      "name": "Create Booking",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{studentToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/api/bookings",
+        "body": { "mode": "raw", "raw": "{\"facilityId\":1,\"bookingDate\":\"2026-05-18\",\"startTime\":\"10:00:00\",\"endTime\":\"11:00:00\"}" }
+      }
+    },
+    {
+      "name": "Admin Pending Bookings",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+        "url": "{{baseUrl}}/api/admin/bookings/pending"
+      }
+    },
+    {
+      "name": "Approve Booking",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/api/admin/bookings/1/approve",
+        "body": { "mode": "raw", "raw": "{\"remarks\":\"Approved for requested slot\"}" }
+      }
+    },
+    {
+      "name": "Join Waitlist",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{studentToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/api/waitlists/join",
+        "body": { "mode": "raw", "raw": "{\"facilityId\":1,\"preferredDate\":\"2026-05-18\",\"preferredStartTime\":\"10:00:00\",\"preferredEndTime\":\"11:00:00\"}" }
+      }
+    },
+    {
+      "name": "Create Maintenance",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": "{{baseUrl}}/api/admin/maintenance",
+        "body": { "mode": "raw", "raw": "{\"facilityId\":2,\"reason\":\"Washer servicing\",\"startDate\":\"2026-05-19\",\"endDate\":\"2026-05-19\",\"startTime\":\"09:00:00\",\"endTime\":\"12:00:00\"}" }
+      }
+    }
+  ]
+}
